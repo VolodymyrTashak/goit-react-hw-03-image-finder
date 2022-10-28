@@ -1,10 +1,11 @@
 import { Component } from 'react';
 // import { toast } from 'react-toastify';
 import axios from 'axios';
+import { ImageGalleryBox } from './ImageGallery.styled';
 import PropTypes from 'prop-types';
-import { ImageGalleryItem } from './ImageGalleryItem';
-import { Loader } from './Loader/Loader';
-import { LoadMore } from './Button';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+import { Loader } from '../Loader/Loader';
+import { LoadMore } from '../Button/Button';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const Key = 'key=29860210-f6d08db11b6c43066ac2ccb28';
@@ -68,11 +69,11 @@ export class ImageGallery extends Component {
     return (
       <>
         {this.state.isLoader && <Loader />}
-        <ul className="ImageGallery" onClick={this.onGalleryListClick}>
+        <ImageGalleryBox onClick={this.onGalleryListClick}>
           {this.state.data.map(img => {
             return <ImageGalleryItem data={img} key={img.id} />;
           })}
-        </ul>
+        </ImageGalleryBox>
         {this.state.data.length > 11 && (
           <LoadMore onClickLoadMore={this.onClickLoadMore} />
         )}

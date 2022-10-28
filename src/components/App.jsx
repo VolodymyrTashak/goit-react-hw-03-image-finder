@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import { AppBox } from './App.styled';
 import { ToastContainer } from 'react-toastify';
-import { Searchbar } from './Searchbar';
-import { ImageGallery } from './ImageGallery';
+import { Searchbar } from './Searchbar/Searchbar';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 export class App extends Component {
   state = {
     cardName: '',
@@ -12,11 +13,11 @@ export class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <AppBox>
         <ToastContainer />
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery searchQuery={this.state.cardName} />
-      </div>
+      </AppBox>
     );
   }
 }

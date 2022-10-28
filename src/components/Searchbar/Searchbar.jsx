@@ -1,9 +1,14 @@
 import { Component } from 'react';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import PropTypes from 'prop-types';
+import {
+  SearchbarBox,
+  SearchForm,
+  SearchFormButton,
+  SearchFormInput,
+} from './Searchbar.styled';
 // import { toast } from 'react-toastify';
 import { BsSearch } from 'react-icons/bs';
-import './styles.css';
 export class Searchbar extends Component {
   state = {
     searchQuery: '',
@@ -34,14 +39,13 @@ export class Searchbar extends Component {
 
   render() {
     return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <button type="submit" className="SearchForm-button">
+      <SearchbarBox>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
             <BsSearch size={25} />
-          </button>
+          </SearchFormButton>
 
-          <input
-            className="SearchForm-input"
+          <SearchFormInput
             type="text"
             name="searchQuery"
             value={this.state.searchQuery}
@@ -50,8 +54,8 @@ export class Searchbar extends Component {
             autoFocus
             placeholder="Search images and photos"
           />
-        </form>
-      </header>
+        </SearchForm>
+      </SearchbarBox>
     );
   }
 }
