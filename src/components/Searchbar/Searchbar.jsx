@@ -7,7 +7,6 @@ import {
   SearchFormButton,
   SearchFormInput,
 } from './Searchbar.styled';
-// import { toast } from 'react-toastify';
 import { BsSearch } from 'react-icons/bs';
 export class Searchbar extends Component {
   state = {
@@ -22,15 +21,6 @@ export class Searchbar extends Component {
     e.preventDefault();
     if (this.state.searchQuery.trim() === '') {
       Notify.failure('Please write what to look for');
-      // toast.error('Please write what to look for', {
-      //   position: 'top-right',
-      //   autoClose: 3000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
       return;
     }
     this.props.onSubmit(this.state.searchQuery);

@@ -1,16 +1,10 @@
 import { Component } from 'react';
-// import { toast } from 'react-toastify';
-import axios from 'axios';
 import { ImageGalleryBox } from './ImageGallery.styled';
-import PropTypes from 'prop-types';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Loader } from '../Loader/Loader';
 import { LoadMore } from '../Button/Button';
-
-const BASE_URL = 'https://pixabay.com/api/';
-const Key = 'key=29860210-f6d08db11b6c43066ac2ccb28';
-const params =
-  'image_type=photo&orientation=horizontal&safesearch=true&per_page=12&';
+import { newsApiService } from 'API/AxiosCreate';
+import PropTypes from 'prop-types';
 
 export class ImageGallery extends Component {
   state = {
@@ -20,6 +14,12 @@ export class ImageGallery extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
+    const {
+      state: { page },
+      props: { searchQuery },
+      hideLoader,
+      showLoader,
+    } = this;
     const prevName = prevProps.searchQuery;
     const nextName = this.props.searchQuery;
     const prevPage = prevState.page;
@@ -27,13 +27,13 @@ export class ImageGallery extends Component {
 
     if (prevName !== nextName) {
       this.setState({ page: 1, data: [] });
-      this.newsApiService().then(res => {
+      newsApiService(searchQuery, page, hideLoader, showLoader).then(res => {
         this.setState({ data: res });
       });
     }
 
     if (prevPage !== nextPage) {
-      this.newsApiService().then(res => {
+      newsApiService(searchQuery, page, hideLoader, showLoader).then(res => {
         this.setState(({ data }) => ({
           data: [...data, ...res],
         }));
@@ -41,23 +41,12 @@ export class ImageGallery extends Component {
     }
   }
 
-  newsApiService = async () => {
-    try {
-      this.toggleLoader();
-      const res = await axios.get(
-        `${BASE_URL}?${Key}&q=${this.props.searchQuery}&${params}&page=${this.state.page}`
-      );
-      this.toggleLoader();
-      return res.data.hits;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      this.setState({ isLoader: false });
-    }
+  hideLoader = () => {
+    this.setState({ isLoader: false });
   };
 
-  toggleLoader = () => {
-    this.setState(state => ({ isLoader: !state.isLoader }));
+  showLoader = () => {
+    this.setState({ isLoader: true });
   };
 
   onClickLoadMore = () => {
